@@ -34,7 +34,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(304, {
         'Content-Type': getMimeType(resPath),
         'Last-Modified': new Date(lastModified),
-        'Expires': new Date(new Date(lastModified) + 86400000)
+        //'Expires': new Date(new Date(lastModified) + 86400000)
     });
     res.end();
   }else{
@@ -48,7 +48,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, {
         'Content-Type': getMimeType(resPath),
         'Last-Modified': new Date(),
-        'Expires': new Date(Date.now() + 86400000)
+        //'Expires': new Date(Date.now() + 86400000)
     });
 
     resStream.pipe(res);
