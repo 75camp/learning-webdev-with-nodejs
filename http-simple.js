@@ -1,8 +1,9 @@
+/* eslint-disable */
 const http = require('http');
 
 const server = http.createServer((req, res) => {
   res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('hello world');
+  res.end('<p>hello world</p>');
 });
 
 server.on('clientError', (err, socket) => {

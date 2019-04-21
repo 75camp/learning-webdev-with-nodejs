@@ -1,24 +1,25 @@
+/* eslint-disable */
 const net = require('net');
 
 let responseDataTpl = `HTTP/1.1 200 OK
 Connection: keep-alive
 Date: ${new Date()}
-Content-Length: 12
-Content-Type: text/plain
+Content-Length: 21
+Content-Type: text/html
 
-Hello world!
+<h1>Hello world!</h1>
 `;
 
 
 let server = net.createServer((socket) => {
   
-  socket.setKeepAlive(true, 60000);
+  socket.setKeepAlive(true, 600000);
 
   socket.write(responseDataTpl);
   socket.pipe(socket);
 
   socket.on('data', function(data){
-    console.log('DATA ' + socket.remoteAddress + ': ' + data);
+    console.log('DATA ' + socket.remoteAddress + ': \n' + data);
     //socket.end('goodbye\n');
   });
 

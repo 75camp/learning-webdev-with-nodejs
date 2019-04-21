@@ -1,3 +1,4 @@
+/* eslint-disable */
 const http = require('http');
 const url = require('url');
 const fs = require("fs");
@@ -5,7 +6,7 @@ const path = require('path');
 
 const server = http.createServer((req, res) => {
   let srvUrl = url.parse(`http://${req.url}`);
-
+  console.log(req.url)
   let pathname = srvUrl.pathname;
   if(pathname === '/') pathname = '/index';
   let pathInfo = path.parse(pathname)
