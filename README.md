@@ -1,4 +1,4 @@
-# 使用 Node.js 进行 Web 服务端开发
+# HTTP协议与服务端编程
 
 ## 课程内容简介
 
@@ -15,7 +15,7 @@
 
 ## Slides
 
-[【声享】使用 Node.js 进行 Web 服务端开发](https://ppt.baomitu.com/d/36c90d3d#/)
+[【声享】HTTP协议与服务端编程](https://ppt.baomitu.com/d/bd67c335)
 
 ## 例子代码
 

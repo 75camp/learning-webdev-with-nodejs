@@ -11,10 +11,14 @@
   "dependencies": {
     "checksum": "^0.1.1",
     "koa": "^2.3.0",
+    "mime": "^2.4.2",
     "node-json2html": "^1.1.1",
     "query-string": "^5.0.0"
   },
   "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-sprite": "^1.0.6",
+    "eslint-plugin-html": "^5.0.3",
     "through2": "^2.0.3"
   }
 }

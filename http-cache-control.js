@@ -1,45 +1,26 @@
-/* eslint-disable */
 const http = require('http');
 const url = require('url');
-const fs = require("fs");
-
-function getMimeType(res){
-  const EXT_MIME_TYPES = {
-    'default': 'text/html',
-    '.js': 'text/javascript',
-    '.css': 'text/css',
-    '.json': 'text/json',
-    
-    '.jpeg': 'image/jpeg',
-    '.jpg': 'image/jpg',
-    '.png': 'image/png',
-    
-    //...
-  }
-
-  let path = require('path');
-  let mime_type = EXT_MIME_TYPES[path.extname(res)] || EXT_MIME_TYPES['default'];
-  return mime_type;
-}
+const fs = require('fs');
+const mime = require('mime');
 
 const server = http.createServer((req, res) => {
-  let srvUrl = url.parse(`http://${req.url}`);
+  const srvUrl = url.parse(`http://${req.url}`);
   let path = srvUrl.path;
   if(path === '/') path = '/index.html';
-  
-  let resPath = ('resource' + path).replace(/\?.*/g, ''); 
 
-  if(!fs.existsSync(resPath)){
+  const resPath = `resource${path}`.replace(/\?.*/g, '');
+
+  if(!fs.existsSync(resPath)) {
     res.writeHead(404, {'Content-Type': 'text/html'});
     return res.end('<h1>404 Not Found</h1>');
   }
 
-  let resStream = fs.createReadStream(resPath);
+  const resStream = fs.createReadStream(resPath);
 
   res.writeHead(200, {
-        'Content-Type': getMimeType(resPath),
-        'Cache-Control': 'max-age=86400'
-    });
+    'Content-Type': mime.getType(resPath),
+    'Cache-Control': 'max-age=86400',
+  });
 
   resStream.pipe(res);
 });
@@ -51,4 +32,3 @@ server.on('clientError', (err, socket) => {
 server.listen(10080, () => {
   console.log('opened server on', server.address());
 });
-

@@ -2,20 +2,20 @@ const http = require('http');
 const json2html = require('node-json2html');
 
 const server = http.createServer((req, res) => {
-  let responseData = {
+  const responseData = {
     name: 'akria',
-    birthday: '1981-12-29'
+    birthday: '1981-12-29',
   };
 
-  let accept = req.headers['accept'];
+  const accept = req.headers.accept;
 
-  if(accept.indexOf('application/json') >= 0){ //不严格的判断
+  if(accept.indexOf('application/json') >= 0) { // 不严格的判断
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end(JSON.stringify(responseData));
-  }else{
+  } else {
     res.writeHead(200, {'Content-Type': 'text/html'});
 
-    let transform = {'tag': 'div', 'html': '${name} : ${birthday}'};
+    const transform = {tag: 'h1', html: `${responseData.name} : ${responseData.birthday}`};
     res.end(json2html.transform(responseData, transform));
   }
 });

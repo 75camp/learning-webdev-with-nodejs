@@ -1,36 +1,35 @@
-/* eslint-disable */
 const http = require('http');
 const url = require('url');
-const fs = require("fs");
+const fs = require('fs');
 const path = require('path');
 
 const server = http.createServer((req, res) => {
-  let srvUrl = url.parse(`http://${req.url}`);
-  console.log(req.url)
+  const srvUrl = url.parse(`http://${req.url}`);
+
   let pathname = srvUrl.pathname;
   if(pathname === '/') pathname = '/index';
-  let pathInfo = path.parse(pathname)
+  const pathInfo = path.parse(pathname);
 
   if(!pathInfo.ext) {
-    pathInfo.ext = '.html'
-    pathInfo.base += pathInfo.ext
+    pathInfo.ext = '.html';
+    pathInfo.base += pathInfo.ext;
   }
 
-  let resPath = path.join('resource', pathInfo.dir, pathInfo.base);
+  const resPath = path.join('resource', pathInfo.dir, pathInfo.base);
 
-  if(!fs.existsSync(resPath)){
+  if(!fs.existsSync(resPath)) {
     res.writeHead(404, {'Content-Type': 'text/html'});
     return res.end('<h1>404 Not Found</h1>');
   }
-  
-  let resStream = fs.createReadStream(resPath);
 
-  if(pathInfo.ext === '.html' || pathInfo.ext === '.htm'){
+  const resStream = fs.createReadStream(resPath);
+
+  if(pathInfo.ext === '.html' || pathInfo.ext === '.htm') {
     res.writeHead(200, {'Content-Type': 'text/html'});
   } else if(pathInfo.ext === '.png') {
     res.writeHead(200, {'Content-Type': 'image/png'});
   }
-  //...
+  // ...
 
   resStream.pipe(res);
 });
