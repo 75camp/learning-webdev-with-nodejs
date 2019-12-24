@@ -1,5 +1,6 @@
 const Server = require('./lib/interceptor-server');
 const router = require('./lib/middleware/router');
+const parseQuery = require('./lib/middleware/query');
 
 const app = new Server();
 
@@ -8,9 +9,12 @@ app.use((context, next) => {
   next();
 });
 
+app.use(parseQuery);
+
 const index = router.get('/', (context, next) => {
   context.status = 200;
-  context.body = '<h1>Hello World!</h1>';
+  const query = context.query;
+  context.body = `<h1>Hello World!</h1><div>${JSON.stringify(query)}</div>`;
   next();
 });
 

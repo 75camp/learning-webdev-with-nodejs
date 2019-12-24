@@ -4,7 +4,7 @@ const responseDataTpl = `HTTP/1.1 200 OK
 Connection: keep-alive
 Date: ${new Date()}
 Content-Length: 21
-Content-Type: text/plain
+Content-Type: text/html
 
 <h1>Hello world!</h1>
 `;

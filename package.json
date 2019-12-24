@@ -13,6 +13,7 @@
     "koa": "^2.3.0",
     "mime": "^2.4.2",
     "node-json2html": "^1.1.1",
+    "qs": "^6.9.1",
     "query-string": "^5.0.0"
   },
   "devDependencies": {
