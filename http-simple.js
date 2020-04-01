@@ -1,8 +1,15 @@
 const http = require('http');
+const url = require('url');
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  res.end('<h1>hello world</h1>');
+  const {pathname} = url.parse(`http://${req.headers.host}${req.url}`);
+  if(pathname === '/') {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end('<h1>Hello world</h1>');
+  } else {
+    res.writeHead(404, {'Content-Type': 'text/html'});
+    res.end('<h1>Not Found</h1>');
+  }
 });
 
 server.on('clientError', (err, socket) => {

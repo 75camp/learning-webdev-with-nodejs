@@ -3,6 +3,14 @@ const url = require('url');
 const fs = require('fs');
 const mime = require('mime');
 
+function getMimeType(res) {
+  const EXT_MIME_TYPES = mime.types;
+
+  const path = require('path');
+  const mime_type = EXT_MIME_TYPES[path.extname(res).slice(1) || 'html'];
+  return mime_type;
+}
+
 const server = http.createServer((req, res) => {
   const srvUrl = url.parse(`http://${req.url}`);
   let path = srvUrl.path;
@@ -16,9 +24,9 @@ const server = http.createServer((req, res) => {
   }
 
   const resStream = fs.createReadStream(resPath);
-
+  console.log(mime.types);
   res.writeHead(200, {
-    'Content-Type': mime.getType(resPath),
+    'Content-Type': getMimeType(resPath),
     'Cache-Control': 'max-age=86400',
   });
 
