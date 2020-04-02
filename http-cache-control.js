@@ -1,36 +1,32 @@
 const http = require('http');
 const url = require('url');
+const path = require('path');
 const fs = require('fs');
 const mime = require('mime');
 
-function getMimeType(res) {
-  const EXT_MIME_TYPES = mime.types;
-
-  const path = require('path');
-  const mime_type = EXT_MIME_TYPES[path.extname(res).slice(1) || 'html'];
-  return mime_type;
-}
-
 const server = http.createServer((req, res) => {
-  const srvUrl = url.parse(`http://${req.url}`);
-  let path = srvUrl.path;
-  if(path === '/') path = '/index.html';
+  let filePath = path.resolve(__dirname, path.join('www', url.fileURLToPath(`file:///${req.url}`)));
 
-  const resPath = `resource${path}`.replace(/\?.*/g, '');
+  console.log(`Request: ${filePath}`);
 
-  if(!fs.existsSync(resPath)) {
+  if(fs.existsSync(filePath)) {
+    const stats = fs.statSync(filePath);
+    if(stats.isDirectory()) {
+      filePath = path.join(filePath, 'index.html');
+    }
+    if(fs.existsSync(filePath)) {
+      const {ext} = path.parse(filePath);
+      res.writeHead(200, {
+        'Content-Type': mime.getType(ext),
+        'Cache-Control': 'max-age=86400', // 缓存一天
+      });
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+    }
+  } else {
     res.writeHead(404, {'Content-Type': 'text/html'});
-    return res.end('<h1>404 Not Found</h1>');
+    res.end('<h1>Not Found</h1>');
   }
-
-  const resStream = fs.createReadStream(resPath);
-  console.log(mime.types);
-  res.writeHead(200, {
-    'Content-Type': getMimeType(resPath),
-    'Cache-Control': 'max-age=86400',
-  });
-
-  resStream.pipe(res);
 });
 
 server.on('clientError', (err, socket) => {
