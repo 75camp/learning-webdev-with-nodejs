@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "checksum": "^0.1.1",
+    "handlebars": "^4.7.6",
     "koa": "^2.3.0",
     "mime": "^2.4.4",
     "node-json2html": "^1.1.1",

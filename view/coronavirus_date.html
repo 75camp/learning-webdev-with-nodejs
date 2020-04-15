@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>疫情数据</title>
+  <style>
+    td:not(:first-child) {
+      text-align: right;
+    }
+    td:nth-child(3) {
+      color: red;
+    }
+    td:nth-child(4) {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr><th>国家</th><th>确诊</th><th>死亡</th><th>治愈</th></tr>
+    </thead>
+    <tbody>
+    {{#each data.countries ~}}
+      <tr><td>{{country}}</td><td>{{confirmed}}</td><td>{{recovered}}</td><td>{{deaths}}</td></tr>
+    {{~/each}}
+    </tbody>
+  </table>
+</body>
+</html>
